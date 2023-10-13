@@ -1,27 +1,23 @@
 'use client';
 import { Sidebar } from '@/components/Sidebar';
 import { Videos } from '@/components/Videos';
-import { getVideo, searchVideo } from '@/utils/youTubeApi';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('New');
   const [videos, setVideos] = useState<VideoItem[]>([]);
-  /* const data: SearchResult = await searchVideo(); */
 
   useEffect(() => {
-    /* http://localhost:3000/api/videos?q=${selectedCategory} */
     fetch(`/api/videos?q=${selectedCategory}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log({ data });
         setVideos(data.items);
       });
   }, [selectedCategory]);
 
   return (
-    <main>
+    <Container maxWidth={false} component="main">
       <Stack
         sx={{
           flexDirection: { sx: 'column', sm: 'row' },
@@ -32,7 +28,7 @@ export default function Home() {
           sx={{
             height: { sx: 'auto', sm: '92vh' },
             borderRight: '1px solid #3d3d3d',
-            px: { sx: 0, md: 2 },
+            px: { sx: 1, md: 2 },
           }}
         >
           <Sidebar
@@ -44,10 +40,25 @@ export default function Home() {
           </Typography>
         </Box>
         <Box>
-          <Typography>Search text</Typography>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            mb={2}
+            /* sx={{ color: 'white' }} */
+          >
+            {selectedCategory}{' '}
+            <Typography
+              color="text.secondary"
+              variant="h4"
+              component={'span'}
+              fontWeight="bold"
+            >
+              videos
+            </Typography>
+          </Typography>
           <Videos videos={videos} />
         </Box>
       </Stack>
-    </main>
+    </Container>
   );
 }

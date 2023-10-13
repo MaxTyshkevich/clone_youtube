@@ -2,8 +2,10 @@ import { searchVideo } from '@/utils/youTubeApi';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-  const response = await searchVideo();
+  const { searchParams } = new URL(request.url);
+  const search = searchParams.get('q') || '';
 
-  console.log(response);
+  const response = await searchVideo(search);
+
   return NextResponse.json(response);
 }

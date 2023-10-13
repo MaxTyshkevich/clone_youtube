@@ -24,7 +24,9 @@ export const VideoCard = ({ video: { id, snippet } }: Props) => {
         />
       </Link>
       <CardContent>
-        <Typography>{snippet?.title.slice(0, 60)}</Typography>
+        <Typography variant="subtitle1" fontWeight="bold">
+          {snippet?.title.slice(0, 60)}
+        </Typography>
         <Typography>{snippet?.channelTitle}</Typography>
       </CardContent>
     </Card>

@@ -1,6 +1,6 @@
 'use client';
 import { categories } from '@/utils/contants';
-import { IconButton, Stack, Typography } from '@mui/material';
+import { IconButton, Stack, Typography, styled } from '@mui/material';
 import React from 'react';
 
 type Props = {
@@ -14,6 +14,8 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
         overflowX: 'auto',
         flexDirection: { xs: 'row', sm: 'column' },
         height: { xs: 'auto', sm: '95%' },
+        flex: 'max-content',
+        alignItems: 'start',
       }}
     >
       {categories.map((category) => {
@@ -24,12 +26,6 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
             {...isSelected}
             key={category.name}
             onClick={() => setSelectedCategory(category.name)}
-            /* style={{
-              color: category.name === selectedCategory ? 'white' : 'red',
-              opacity: category.name === selectedCategory ? '1' : '0.8',
-            }} */
-
-            /* variant={category.name === selectedCategory && 'selected'} */
           >
             <Typography
               sx={{
@@ -45,3 +41,10 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
     </Stack>
   );
 };
+
+/* style={{
+              color: category.name === selectedCategory ? 'white' : 'red',
+              opacity: category.name === selectedCategory ? '1' : '0.8',
+            }} */
+
+/* variant={category.name === selectedCategory && 'selected'} */

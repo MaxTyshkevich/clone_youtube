@@ -3,7 +3,11 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#000',
+      main: '#000000',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#FC1503',
     },
     background: {
       default: '#000',
@@ -36,6 +40,13 @@ export const theme = createTheme({
               borderRadius: 2,
             },
           };
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          background: '#1E1E1E',
         },
       },
     },

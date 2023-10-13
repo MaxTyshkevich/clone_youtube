@@ -8,11 +8,9 @@ type Props = {
 };
 
 export const Videos = ({ videos = [] }: Props) => {
-  console.log('videos: ', { videos });
   return (
     <Stack
       sx={{
-        /*  flexDirection: { sm: 'row' }, */
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: { xs: 5, sm: 7 },
@@ -21,16 +19,10 @@ export const Videos = ({ videos = [] }: Props) => {
         p: 2,
       }}
     >
-      <Box
-        sx={(...a) => {
-          console.log(a);
-          return {};
-        }}
-      ></Box>
       {videos.map((video) => (
         <Box key={video.id.videoId}>
           {video.id.videoId && <VideoCard video={video} />}
-          {video.id?.channelId && `CHANNAL`}
+          {/*  {video.id?.channelId && `CHANNAL`} */}
         </Box>
       ))}
     </Stack>
