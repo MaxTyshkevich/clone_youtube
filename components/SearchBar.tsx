@@ -1,5 +1,5 @@
 'use client';
-import { IconButton, Paper, InputBase } from '@mui/material';
+import { IconButton, Paper, InputBase, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';

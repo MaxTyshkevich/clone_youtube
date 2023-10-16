@@ -14,13 +14,14 @@ export const theme = createTheme({
     },
   },
   components: {
-    MuiAppBar: {
+    /*     MuiAppBar: {
       styleOverrides: {
         root: {
           p: 1,
+          background: '#000000',
         },
       },
-    },
+    },  */
     MuiIconButton: {
       variants: [
         {

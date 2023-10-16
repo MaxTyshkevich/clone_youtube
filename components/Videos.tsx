@@ -1,30 +1,42 @@
 'use client';
-import { Box, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import React from 'react';
 import { VideoCard } from './VideoCard';
+import { ChannelCart } from './ChannelCart';
 
 type Props = {
-  videos: VideoItem[];
+  videos: VideoItem<VideoID>[];
 };
 
 export const Videos = ({ videos = [] }: Props) => {
   return (
-    <Stack
-      sx={{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: { xs: 5, sm: 7 },
-        justifyContent: 'center',
-        alignItems: 'center',
-        p: 2,
-      }}
+    <Grid
+      container
+      spacing={{ xs: 2, md: 3 }}
+      columns={{ xs: 2, sm: 8, md: 12, lg: 12 }}
     >
       {videos.map((video) => (
-        <Box key={video.id.videoId}>
-          {video.id.videoId && <VideoCard video={video} />}
-          {/*  {video.id?.channelId && `CHANNAL`} */}
-        </Box>
+        <>
+          {video.id?.videoId && (
+            <VideoCard video={video} key={video.id.videoId} />
+          )}
+          {video.id?.channelId && (
+            <ChannelCart video={video} key={video.id.channelId} />
+          )}
+        </>
       ))}
-    </Stack>
+    </Grid>
   );
 };
+
+/* 
+  <>
+          {(video.id?.videoId as VideoItem<VideoID>) && (
+            <VideoCard video={video} key={video.id.videoId} />
+          )}
+          {video.id?.channelId && (
+            <ChannalCart video={video} key={video.id.channelId} />
+          )}
+        </>
+
+*/

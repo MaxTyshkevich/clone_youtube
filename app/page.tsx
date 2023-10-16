@@ -4,15 +4,36 @@ import { Videos } from '@/components/Videos';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState('New');
-  const [videos, setVideos] = useState<VideoItem[]>([]);
+/* 
+params
+: 
+{}
+searchParams
+: 
+{q: 'new'}
 
+*/
+
+type Props = {
+  params: {};
+  searchParams: {
+    q?: string;
+  };
+};
+
+export default function Home({ searchParams: { q } }: Props) {
+  const [selectedCategory, setSelectedCategory] = useState(q || 'New');
+  const [videos, setVideos] = useState<VideoItem<VideoID | ChannelID>[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  console.log(q);
   useEffect(() => {
+    setIsLoading(true);
     fetch(`/api/videos?q=${selectedCategory}`)
       .then((response) => response.json())
       .then((data) => {
         setVideos(data.items);
+        setIsLoading(false);
       });
   }, [selectedCategory]);
 
@@ -39,14 +60,10 @@ export default function Home() {
             Copyright © {new Date().getFullYear()} JSM Media
           </Typography>
         </Box>
-        <Box>
-          <Typography
-            variant="h4"
-            fontWeight="bold"
-            mb={2}
-            /* sx={{ color: 'white' }} */
-          >
-            {selectedCategory}{' '}
+        <Box flexGrow={1}>
+          <Typography variant="h4" fontWeight="bold" mb={2}>
+            {selectedCategory}
+            {'  '}
             <Typography
               color="text.secondary"
               variant="h4"
@@ -58,6 +75,7 @@ export default function Home() {
           </Typography>
           <Videos videos={videos} />
         </Box>
+        {isLoading && <Box color={'HighlightText'}>Loading!!!</Box>}
       </Stack>
     </Container>
   );

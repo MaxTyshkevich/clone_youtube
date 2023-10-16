@@ -1,9 +1,18 @@
-type VideoItem = {
+type ChannelID = {
   kind: string;
-  id: {
-    kind: string;
-    videoId: string;
-  };
+  channelId: string;
+};
+
+type VideoID = {
+  kind: string;
+  videoId: string;
+};
+
+type s = ChannelID | VideoID;
+
+type VideoItem<T extends ChannelID | VideoID> = {
+  kind: string;
+  id: T;
   snippet: {
     channelId: string;
     publishedAt: Date;
@@ -22,9 +31,16 @@ type VideoItem = {
   };
 };
 
+/* 
+
+
+*/
+
 type SearchResult = {
   kind: string;
   items: VideoItem[];
+  nextPageToken?: string;
+  prevPageToken?: string;
   pageInfo: {
     totalResults: number;
     resultsPerPage: number;

@@ -20,12 +20,15 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
     >
       {categories.map((category) => {
         const isSelected =
-          category.name === selectedCategory ? { variant: 'selected' } : {};
+          category.name.toLocaleLowerCase() ===
+          selectedCategory.toLocaleLowerCase()
+            ? { variant: 'selected' }
+            : {};
         return (
           <IconButton
-            {...isSelected}
             key={category.name}
             onClick={() => setSelectedCategory(category.name)}
+            {...isSelected}
           >
             <Typography
               sx={{
