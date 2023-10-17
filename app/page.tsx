@@ -1,18 +1,9 @@
 'use client';
+import { useInView } from 'react-intersection-observer';
 import { Sidebar } from '@/components/Sidebar';
 import { Videos } from '@/components/Videos';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-
-/* 
-params
-: 
-{}
-searchParams
-: 
-{q: 'new'}
-
-*/
 
 type Props = {
   params: {};
@@ -25,8 +16,10 @@ export default function Home({ searchParams: { q } }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(q || 'New');
   const [videos, setVideos] = useState<VideoItem<VideoID | ChannelID>[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { ref, inView, entry } = useInView({
+    threshold: 0,
+  });
 
-  console.log(q);
   useEffect(() => {
     setIsLoading(true);
     fetch(`/api/videos?q=${selectedCategory}`)
@@ -36,6 +29,20 @@ export default function Home({ searchParams: { q } }: Props) {
         setIsLoading(false);
       });
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (inView && !isLoading) {
+      fetch(`/api/videos?q=${selectedCategory}&next=true`)
+        .then((response) => response.json())
+        .then((data) => {
+          setVideos((prevVideos) =>
+            Array.from(new Set([...prevVideos, ...data.items]))
+          );
+
+          setIsLoading(false);
+        });
+    }
+  }, [inView, isLoading]);
 
   return (
     <Container maxWidth={false} component="main">
@@ -73,7 +80,7 @@ export default function Home({ searchParams: { q } }: Props) {
               videos
             </Typography>
           </Typography>
-          <Videos videos={videos} />
+          <Videos videos={videos} lastRef={ref} />
         </Box>
         {isLoading && <Box color={'HighlightText'}>Loading!!!</Box>}
       </Stack>
