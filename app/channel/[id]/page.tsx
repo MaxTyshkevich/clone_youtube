@@ -2,16 +2,31 @@ import { ChannelCart } from '@/components/ChannelCart';
 import { Videos } from '@/components/Videos';
 import { getChannelById, getVideosOfChannel } from '@/utils/youTubeApi';
 import { Container, Grid, Box } from '@mui/material';
+import { Metadata } from 'next';
+
 type Props = {
   params: {
     id: string;
   };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // read route params
+  const id = params.id;
+
+  // fetch data
+  const channel = await getChannelById(id);
+
+  return {
+    title: channel.snippet.title,
+  };
+}
+
 const page = async ({ params: { id } }: Props) => {
   const channel = await getChannelById(id);
   const videosChanel = await getVideosOfChannel(id);
 
-  console.log({ videosChanel });
+  console.log({ channel });
   return (
     <Container maxWidth={false} component="main">
       <Box
@@ -24,9 +39,9 @@ const page = async ({ params: { id } }: Props) => {
           zIndex: 10,
         }}
       >
-        {/*   <ChannelCart video={channel} center /> */}
+        {/*  <ChannelCart video={channel} center /> */}
       </Box>
-      <Grid container>
+      <Grid container mt={4}>
         <Videos videos={videosChanel} />
       </Grid>
     </Container>

@@ -3,14 +3,13 @@ import { Player } from '@/components/Player';
 import { Videos } from '@/components/Videos';
 import {
   getCommentsOfVideo,
-  getVideoById,
   getVideoDetail,
   getVideosOfChannel,
 } from '@/utils/youTubeApi';
 import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
-import { Suspense } from 'react';
+
 
 type Props = {
   params: {

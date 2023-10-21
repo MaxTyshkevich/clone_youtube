@@ -40,7 +40,21 @@ type CommentOfVideo = {
     topLevelComment: {
       kind: string;
       id: string;
-      snippet: any;
+      snippet: {
+        channelId: string;
+        videoId: string;
+        textDisplay: string;
+        textOriginal: string;
+        authorDisplayName: string;
+        authorProfileImageUrl: string;
+        authorChannelUrl: string;
+        authorChannelId: { value: string };
+        canRate: true;
+        viewerRating: string;
+        likeCount: 0;
+        publishedAt: Date;
+        updatedAt: Date;
+      };
     };
     canReply: boolean;
     totalReplyCount: number;

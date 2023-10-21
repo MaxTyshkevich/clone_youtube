@@ -18,7 +18,7 @@ export const Player = ({ id }: Props) => {
         width={'100%'}
         height={'100%'}
         controls
-        playing={true}
+        /* playing={true} */
         style={{ position: 'absolute', top: 0 }}
       />
     </Box>

@@ -43,8 +43,7 @@ export const VideoCard = ({ video: { id, snippet }, horizon }: Props) => {
 
           src={snippet?.thumbnails?.high?.url}
           fill
-          /*   fill
-          sizes="@media(width-max: 800px) 600" */
+          sizes="(max-width: 900px) 325px"
           style={{ objectFit: 'cover' }}
           alt={snippet.title}
         />

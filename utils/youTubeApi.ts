@@ -86,7 +86,7 @@ export const getChannelById = async (id: string) => {
 export const getVideosOfChannel = async (id: string) => {
   try {
     const res = await fetch(
-      `${BASE_URL}/search?part=snippet&relatedToVideoId=${id}&type=video`,
+      `${BASE_URL}/search?channelId=${id}&part=snippet%2Cid&order=date&maxResults=${MAX_RESULT_ITEMS}`,
       {
         headers: {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,

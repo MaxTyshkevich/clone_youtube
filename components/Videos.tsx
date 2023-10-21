@@ -23,7 +23,7 @@ export const Videos = ({ videos = [], lastRef, stack = false }: Props) => {
           ? { xs: 2, sm: 4, md: 4, lg: 3 }
           : { xs: 2, sm: 8, md: 12, lg: 12 }
       }
-      sx={{ overflow: 'auto', height: '100%' }}
+      sx={{ overflow: 'auto', height: '100%', alignItems: 'stretch' }}
     >
       {videos.map((video, id) => {
         const islastItem = videos.length - 1 === id;
