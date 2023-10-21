@@ -1,5 +1,5 @@
 'use client';
-import { useInView } from 'react-intersection-observer';
+
 import { Box, Grid, Stack } from '@mui/material';
 import React from 'react';
 import { VideoCard } from './VideoCard';
@@ -8,18 +8,25 @@ import { ChannelCart } from './ChannelCart';
 type Props = {
   videos: VideoItem<any>[];
   lastRef?: (node?: Element | null | undefined) => void;
+  stack?: boolean;
 };
 
-export const Videos = ({ videos = [], lastRef }: Props) => {
+export const Videos = ({ videos = [], lastRef, stack = false }: Props) => {
+  console.log({ stack, videos });
+
   return (
     <Grid
       container
       spacing={{ xs: 2, md: 3 }}
-      columns={{ xs: 2, sm: 8, md: 12, lg: 12 }}
+      columns={
+        stack
+          ? { xs: 2, sm: 4, md: 4, lg: 3 }
+          : { xs: 2, sm: 8, md: 12, lg: 12 }
+      }
+      sx={{ overflow: 'auto', height: '100%' }}
     >
       {videos.map((video, id) => {
         const islastItem = videos.length - 1 === id;
-        console.log(`JSON.stringify(video.id)`, JSON.stringify(video.id));
         const refProp = islastItem && lastRef ? { ref: lastRef } : {};
         return (
           <Grid
@@ -30,8 +37,9 @@ export const Videos = ({ videos = [], lastRef }: Props) => {
             lg={3}
             key={JSON.stringify(video.id)}
             {...refProp}
+            sx={{ margin: 0, padding: 0 }}
           >
-            {video?.id?.videoId && <VideoCard video={video} />}
+            {video?.id?.videoId && <VideoCard video={video} horizon={stack} />}
             {video?.id?.channelId && <ChannelCart video={video} />}
           </Grid>
         );

@@ -1,6 +1,7 @@
 'use client';
 
 import { Box } from '@mui/material';
+import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 
 type Props = {
@@ -8,11 +9,18 @@ type Props = {
 };
 
 export const Player = ({ id }: Props) => {
+  const [videoId, setVideoId] = useState(id);
+
   return (
-    <ReactPlayer
-      url={`https://www.youtube.com/watch?v=${id}`}
-      controls
-      width="100%"
-    />
+    <Box sx={{ width: '100%', paddingTop: '52.65%', position: 'relative' }}>
+      <ReactPlayer
+        url={`https://www.youtube.com/watch?v=${videoId}`}
+        width={'100%'}
+        height={'100%'}
+        controls
+        playing={true}
+        style={{ position: 'absolute', top: 0 }}
+      />
+    </Box>
   );
 };

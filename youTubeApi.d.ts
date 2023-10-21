@@ -31,10 +31,22 @@ type VideoItem<T extends ChannelID | VideoID> = {
   };
 };
 
-/* 
-
-
-*/
+type CommentOfVideo = {
+  kind: string;
+  id: string;
+  snippet: {
+    channelId: string;
+    videoId: string;
+    topLevelComment: {
+      kind: string;
+      id: string;
+      snippet: any;
+    };
+    canReply: boolean;
+    totalReplyCount: number;
+    isPublic: boolean;
+  };
+};
 
 type SearchResult = {
   kind: string;

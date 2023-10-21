@@ -24,6 +24,7 @@ export const searchVideo = async (search = '') => {
 
 export const stepSearchVideo = async (search = '') => {
   try {
+    console.log({ PAGINATION_TOKEN_NEXT });
     const res = await fetch(
       `${BASE_URL}/search?q=${search}&part=snippet&maxResults=${MAX_RESULT_ITEMS}&pageToken=${PAGINATION_TOKEN_NEXT}`,
       {
@@ -45,7 +46,7 @@ export const stepSearchVideo = async (search = '') => {
 export const getVideoById = async (id: string) => {
   try {
     const res = await fetch(
-      `${BASE_URL}/search?id=${id}&part=snippet&maxResults=${MAX_RESULT_ITEMS}&pageToken=${pageToken}`,
+      `${BASE_URL}/search?id=${id}&part=snippet&maxResults=${MAX_RESULT_ITEMS}`,
       {
         headers: {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
@@ -85,7 +86,7 @@ export const getChannelById = async (id: string) => {
 export const getVideosOfChannel = async (id: string) => {
   try {
     const res = await fetch(
-      `${BASE_URL}/search?channelId=${id}&part=snippet%2Cid&order=date&maxResults=${MAX_RESULT_ITEMS}`,
+      `${BASE_URL}/search?part=snippet&relatedToVideoId=${id}&type=video`,
       {
         headers: {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
@@ -96,6 +97,44 @@ export const getVideosOfChannel = async (id: string) => {
     const result: SearchResult = await res.json();
 
     return result.items;
+  } catch (error) {
+    throw Error('Error!!');
+  }
+};
+
+export const getVideoDetail = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/videos?part=snippet,statistics&id=${id}`,
+      {
+        headers: {
+          ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
+          ['X-RapidAPI-Host']: process.env.RAPID_API_HOST!,
+        },
+      }
+    );
+    const result: SearchResult = await res.json();
+    console.log(`get fetchAPI!!!!!`);
+    return result;
+  } catch (error) {
+    throw Error('Error!!');
+  }
+};
+
+export const getCommentsOfVideo = async (videoId: string) => {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/commentThreads?part=snippet&videoId=${videoId}`,
+      {
+        headers: {
+          ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
+          ['X-RapidAPI-Host']: process.env.RAPID_API_HOST!,
+        },
+      }
+    );
+    const result: SearchResult = await res.json();
+    console.log(`get fetchAPI!!!!!`);
+    return result;
   } catch (error) {
     throw Error('Error!!');
   }

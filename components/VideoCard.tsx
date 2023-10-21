@@ -13,29 +13,39 @@ import { demoThumbnailUrl } from '@/utils/contants';
 
 type Props = {
   video: VideoItem<VideoID>;
+  horizon?: boolean;
 };
 
-export const VideoCard = ({ video: { id, snippet } }: Props) => {
+export const VideoCard = ({ video: { id, snippet }, horizon }: Props) => {
   return (
     <Card
       sx={{
-        position: 'relative',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: horizon ? 'row' : 'column',
+
         flexGrow: 1,
       }}
     >
       {/* 
        width: { xs: '100%', sm: 'calc(50% - 8 * 2)', md: 280 },
       */}
-      <Link href={`/video/${id.videoId}`}>
+      <Link
+        href={`/video/${id.videoId}`}
+        style={{
+          position: 'relative',
+          paddingTop: horizon ? 0 : '56.25%',
+
+          width: horizon ? 325 : '100%',
+        }}
+      >
         <Image
           /* component={Image} */
 
           src={snippet?.thumbnails?.high?.url}
-          width={600}
-          height={320}
-          style={{ maxWidth: '100%', height: 'auto' }}
+          fill
+          /*   fill
+          sizes="@media(width-max: 800px) 600" */
+          style={{ objectFit: 'cover' }}
           alt={snippet.title}
         />
       </Link>

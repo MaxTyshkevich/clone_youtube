@@ -16,6 +16,8 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
         height: { xs: 'auto', sm: '95%' },
         flex: 'max-content',
         alignItems: 'start',
+        px: 2,
+        py: 1,
       }}
     >
       {categories.map((category) => {
@@ -26,6 +28,13 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
             : {};
         return (
           <IconButton
+            sx={{
+              width: { xs: 'auto', sm: '100%' },
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center',
+              justifyItems: 'center',
+            }}
             key={category.name}
             onClick={() => setSelectedCategory(category.name)}
             {...isSelected}
@@ -37,7 +46,13 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }: Props) => {
             >
               {category.icon}
             </Typography>
-            <Typography>{category.name}</Typography>
+            <Typography
+              sx={{
+                flexGrow: 1,
+              }}
+            >
+              {category.name}
+            </Typography>
           </IconButton>
         );
       })}

@@ -21,7 +21,7 @@ export const ChannelCart = ({
   video: { id, snippet },
   center = false,
 }: Props) => {
-  console.log({ center });
+  console.log({ s: snippet.thumbnails });
 
   return (
     <Card
@@ -36,17 +36,16 @@ export const ChannelCart = ({
         alignItems: 'center',
         marginTop: 0,
         // center && ...{width: '20%'},
-        width: center ? '30%' : 'auto',
+        width: center ? 200 : 'auto',
       }}
     >
       <Link href={`/channel/${id.channelId}`}>
-        <CardMedia
-          /* fill={true} */
-          component="img"
-          /*  component={Image} */
-          /* height="194" */
+        <Image
+          src={snippet.thumbnails.high.url}
+          width={snippet.thumbnails.high?.width || 600}
+          height={snippet.thumbnails.high?.height || 320}
+          style={{ maxWidth: '100%', height: 'auto' }}
           alt={snippet.title}
-          src={snippet?.thumbnails?.high?.url || demoThumbnailUrl}
         />
         <CardContent>
           <Typography variant="h6">

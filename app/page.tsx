@@ -45,30 +45,32 @@ export default function Home({ searchParams: { q } }: Props) {
   }, [inView, isLoading]);
 
   return (
-    <Container maxWidth={false} component="main">
+    <Container
+      maxWidth={false}
+      component="main"
+      sx={{ height: 'calc(100vh - 80px)' }}
+    >
       <Stack
         sx={{
           flexDirection: { sx: 'column', sm: 'row' },
           gap: { sx: 1, sm: 2 },
+          height: '100%',
         }}
       >
         <Box
           sx={{
-            height: { sx: 'auto', sm: '92vh' },
-            borderRight: '1px solid #3d3d3d',
-            px: { sx: 1, md: 2 },
+            height: { sx: 'auto' },
+            borderRight: { sx: null, sm: '1px solid #3d3d3d' },
+            /* borderBottom: { sx: '2px solid #3d3d3d', sm: null }, */
           }}
         >
           <Sidebar
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
-          <Typography>
-            Copyright © {new Date().getFullYear()} JSM Media
-          </Typography>
         </Box>
-        <Box flexGrow={1}>
-          <Typography variant="h4" fontWeight="bold" mb={2}>
+        <Box flexGrow={1} sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="h4" fontWeight="bold">
             {selectedCategory}
             {'  '}
             <Typography
@@ -80,7 +82,9 @@ export default function Home({ searchParams: { q } }: Props) {
               videos
             </Typography>
           </Typography>
-          <Videos videos={videos} lastRef={ref} />
+          <Box sx={{ height: '100%', marginTop: 5 }}>
+            <Videos videos={videos} lastRef={ref} />
+          </Box>
         </Box>
         {isLoading && <Box color={'HighlightText'}>Loading!!!</Box>}
       </Stack>

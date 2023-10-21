@@ -12,3 +12,14 @@
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+a {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 2px;
+  }
+}

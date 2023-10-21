@@ -14,6 +14,14 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          height: '100vh',
+        },
+      },
+    },
+
     /*     MuiAppBar: {
       styleOverrides: {
         root: {
