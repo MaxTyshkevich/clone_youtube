@@ -31,20 +31,11 @@ export const theme = createTheme({
       },
     },  */
     MuiIconButton: {
-      variants: [
-        {
-          props: { variant: 'selected' },
-          style: {
-            color: 'white',
-            opacity: '1',
-          },
-        },
-      ],
       styleOverrides: {
         root: ({ ownerState }) => {
           return {
-            color: 'red',
-            opacity: '0.8',
+            color: ownerState.variant === 'selected' ? 'white' : 'red',
+            opacity: ownerState.variant === 'selected' ? 1 : '0.8',
             '&:hover': {
               borderRadius: 2,
             },
@@ -89,5 +80,18 @@ MuiIconButton: {
         },
       },
     },
+
+*/
+
+/* 
+     variants: [
+        {
+          props: { variant: 'selected' },
+          style: {
+            color: 'white',
+            opacity: '1',
+          },
+        },
+      ],
 
 */
