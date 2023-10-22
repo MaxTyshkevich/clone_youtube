@@ -1,11 +1,10 @@
 const BASE_URL = 'https://youtube-v31.p.rapidapi.com';
 const MAX_RESULT_ITEMS = 10;
-let PAGINATION_TOKEN_NEXT: string = '';
 
-export const searchVideo = async (search = '') => {
+export const searchVideo = async (search = '', nextPageToken = '') => {
   try {
     const res = await fetch(
-      `${BASE_URL}/search?q=${search}&part=snippet&maxResults=${MAX_RESULT_ITEMS}`,
+      `${BASE_URL}/search?q=${search}&part=snippet&maxResults=${MAX_RESULT_ITEMS}&pageToken=${nextPageToken}`,
       {
         headers: {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
@@ -15,16 +14,15 @@ export const searchVideo = async (search = '') => {
       }
     );
     const result: SearchResult = await res.json();
-    PAGINATION_TOKEN_NEXT = result?.nextPageToken || '';
+
     return result;
   } catch (error) {
     throw Error('Error!!');
   }
 };
-
+/* 
 export const stepSearchVideo = async (search = '') => {
   try {
-    console.log({ PAGINATION_TOKEN_NEXT });
     const res = await fetch(
       `${BASE_URL}/search?q=${search}&part=snippet&maxResults=${MAX_RESULT_ITEMS}&pageToken=${PAGINATION_TOKEN_NEXT}`,
       {
@@ -32,16 +30,15 @@ export const stepSearchVideo = async (search = '') => {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
           ['X-RapidAPI-Host']: process.env.RAPID_API_HOST!,
         },
-        /*  cache: 'no-cache', */
       }
     );
     const result: SearchResult = await res.json();
-    PAGINATION_TOKEN_NEXT = result?.nextPageToken || '';
+
     return result;
   } catch (error) {
     throw Error('Error!!');
   }
-};
+}; */
 
 export const getVideoById = async (id: string) => {
   try {
@@ -55,7 +52,7 @@ export const getVideoById = async (id: string) => {
       }
     );
     const result: SearchResult = await res.json();
-    console.log(`get fetchAPI!!!!!`);
+
     return result;
   } catch (error) {
     throw Error('Error!!');
@@ -83,10 +80,10 @@ export const getChannelById = async (id: string) => {
   }
 };
 
-export const getVideosOfChannel = async (id: string) => {
+export const getVideosOfChannel = async (id: string, nextPageToken = '') => {
   try {
     const res = await fetch(
-      `${BASE_URL}/search?channelId=${id}&part=snippet%2Cid&order=date&maxResults=${MAX_RESULT_ITEMS}`,
+      `${BASE_URL}/search?channelId=${id}&part=snippet%2Cid&order=date&maxResults=${MAX_RESULT_ITEMS}&pageToken=${nextPageToken}`,
       {
         headers: {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
@@ -96,7 +93,7 @@ export const getVideosOfChannel = async (id: string) => {
     );
     const result: SearchResult = await res.json();
 
-    return result.items;
+    return result;
   } catch (error) {
     throw Error('Error!!');
   }
@@ -105,7 +102,7 @@ export const getVideosOfChannel = async (id: string) => {
 export const getVideoDetail = async (id: string) => {
   try {
     const res = await fetch(
-      `${BASE_URL}/videos?part=snippet,statistics&id=${id}`,
+      `${BASE_URL}/videos?part=contentDetails%2Csnippet%2Cstatistics&id=${id}`,
       {
         headers: {
           ['X-RapidAPI-Key']: process.env.RAPID_API_KEY!,
@@ -114,10 +111,15 @@ export const getVideoDetail = async (id: string) => {
       }
     );
     const result: SearchResult = await res.json();
-    console.log(`get fetchAPI!!!!!`);
-    return result;
+
+    const details = result.items[0];
+    if (!details) {
+      throw Error('Описание видео не найдено!');
+    }
+
+    return details;
   } catch (error) {
-    throw Error('Error!!');
+    console.log({ error });
   }
 };
 
@@ -133,7 +135,7 @@ export const getCommentsOfVideo = async (videoId: string) => {
       }
     );
     const result: SearchResult = await res.json();
-    console.log(`get fetchAPI!!!!!`);
+
     return result;
   } catch (error) {
     throw Error('Error!!');

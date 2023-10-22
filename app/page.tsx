@@ -14,31 +14,34 @@ type Props = {
 
 export default function Home({ searchParams: { q } }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(q || 'New');
+  const [nextpage, setNextpage] = useState('');
+
   const [videos, setVideos] = useState<VideoItem<VideoID | ChannelID>[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { ref, inView, entry } = useInView({
     threshold: 0,
   });
 
+  console.log({ videos });
   useEffect(() => {
     setIsLoading(true);
+    setVideos([]);
     fetch(`/api/videos?q=${selectedCategory}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: SearchResult) => {
         setVideos(data.items);
+        setNextpage(data?.nextPageToken || '');
         setIsLoading(false);
       });
   }, [selectedCategory]);
 
   useEffect(() => {
     if (inView && !isLoading) {
-      fetch(`/api/videos?q=${selectedCategory}&next=true`)
+      fetch(`/api/videos?q=${selectedCategory}&nextpage=${nextpage}`)
         .then((response) => response.json())
         .then((data) => {
-          setVideos((prevVideos) =>
-            Array.from(new Set([...prevVideos, ...data.items]))
-          );
-
+          setVideos((prevVideos) => [...prevVideos, ...data.items]);
+          setNextpage(data?.nextPageToken || '');
           setIsLoading(false);
         });
     }

@@ -9,7 +9,7 @@ import {
 import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
-
+import { VideoContainer } from './components/VideoContainer';
 
 type Props = {
   params: {
@@ -54,19 +54,23 @@ export async function generateMetadata(
 
   // fetch data
   const video = await getVideoDetail(id);
-  const videoDetails = video.items[0].snippet;
 
   return {
-    title: videoDetails.title,
+    title: video.snippet.title,
   };
 }
 
 const page = async ({ params: { id } }: Props) => {
-  const video = await getVideoDetail(id);
-  const videosOfChannel = await getVideosOfChannel(id);
-  const commentsOfVideo = await getCommentsOfVideo(id);
-  const videoDetails = video.items[0].snippet;
-  console.log({ video: video });
+  const fetchvideoDetails = await getVideoDetail(id);
+  const fetchcommentsOfVideo = await getCommentsOfVideo(id);
+
+  const [videoDetails, commentsOfVideo] = await Promise.all([
+    fetchvideoDetails,
+    fetchcommentsOfVideo,
+  ]);
+
+  const data = await getVideosOfChannel(videoDetails.snippet.channelId);
+  const videosOfChannel = data.items;
 
   return (
     <Container maxWidth={false} component="main" sx={{ minHeight: '100vh' }}>
@@ -75,10 +79,12 @@ const page = async ({ params: { id } }: Props) => {
           <Box>
             <Player id={id} />
             <Box mt={{ xs: 3, lg: 0 }}>
-              <Link href={`/channel/${videoDetails.channelId}`}>
-                <Typography variant="h4">{videoDetails.title}</Typography>
+              <Link href={`/channel/${videoDetails.snippet.channelId}`}>
+                <Typography variant="h4">
+                  {videoDetails.snippet.title}
+                </Typography>
               </Link>
-              <Description text={videoDetails.description} />
+              <Description text={videoDetails.snippet.description} />
 
               <CommentsList comments={commentsOfVideo.items} />
             </Box>
@@ -86,9 +92,11 @@ const page = async ({ params: { id } }: Props) => {
         </Grid>
 
         <Grid item mt={10} xs={12} md={4}>
-          <Box>
-            <Videos videos={videosOfChannel} stack />
-          </Box>
+          <VideoContainer
+            videosOfChannel={videosOfChannel}
+            channelId={videoDetails.snippet.channelId}
+            tokenNextPage={data.nextPageToken}
+          />
         </Grid>
       </Grid>
     </Container>

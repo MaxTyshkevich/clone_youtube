@@ -26,7 +26,7 @@ const page = async ({ params: { id } }: Props) => {
   const channel = await getChannelById(id);
   const videosChanel = await getVideosOfChannel(id);
 
-  console.log({ channel });
+  // console.log({ channel });
   return (
     <Container maxWidth={false} component="main">
       <Box

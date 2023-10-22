@@ -21,8 +21,6 @@ export const ChannelCart = ({
   video: { id, snippet },
   center = false,
 }: Props) => {
-  console.log({ s: snippet.thumbnails });
-
   return (
     <Card
       sx={{

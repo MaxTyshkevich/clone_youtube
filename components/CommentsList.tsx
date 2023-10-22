@@ -15,7 +15,6 @@ type Props = {
   comments: CommentOfVideo[];
 };
 export const CommentsList = ({ comments }: Props) => {
-  console.log(comments[6].snippet);
   return (
     <Stack mt={3} gap={2}>
       {comments.map((comment) => (

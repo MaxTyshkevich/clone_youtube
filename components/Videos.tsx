@@ -12,8 +12,6 @@ type Props = {
 };
 
 export const Videos = ({ videos = [], lastRef, stack = false }: Props) => {
-  console.log({ stack, videos });
-
   return (
     <Grid
       container
