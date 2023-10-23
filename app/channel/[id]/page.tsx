@@ -26,8 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const page = async ({ params: { id } }: Props) => {
   const channel = await getChannelById(id);
   const resVideosChanel = await getVideosOfChannel(id);
-  const videosOfChannel = resVideosChanel.items;
-  // console.log({ channel });
+  const videosOfChannel: VideoItem<VideoID | ChannelID>[] =
+    resVideosChanel.items;
+
   return (
     <Container maxWidth={false} component="main">
       <Box
