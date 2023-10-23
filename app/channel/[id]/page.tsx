@@ -3,6 +3,7 @@ import { Videos } from '@/components/Videos';
 import { getChannelById, getVideosOfChannel } from '@/utils/youTubeApi';
 import { Container, Grid, Box } from '@mui/material';
 import { Metadata } from 'next';
+import { VideoContainer } from './components/VideoContainer';
 
 type Props = {
   params: {
@@ -24,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const page = async ({ params: { id } }: Props) => {
   const channel = await getChannelById(id);
-  const videosChanel = await getVideosOfChannel(id);
-
+  const resVideosChanel = await getVideosOfChannel(id);
+  const videosOfChannel = resVideosChanel.items;
   // console.log({ channel });
   return (
     <Container maxWidth={false} component="main">
@@ -42,7 +43,11 @@ const page = async ({ params: { id } }: Props) => {
         {/*  <ChannelCart video={channel} center /> */}
       </Box>
       <Grid container mt={4}>
-        <Videos videos={videosChanel} />
+        <VideoContainer
+          videosOfChannel={videosOfChannel}
+          channelId={id}
+          tokenNextPage={resVideosChanel?.nextPageToken}
+        />
       </Grid>
     </Container>
   );
