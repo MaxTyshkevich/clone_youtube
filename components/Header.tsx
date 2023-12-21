@@ -4,13 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { SearchBar } from './SearchBar';
+import { useTheme } from '@emotion/react';
 
 export const Header = () => {
   return (
     <AppBar
       position="static" /* color={pal} */
-      sx={{ background: `#000`, p: 1 }}
-      color="primary"
+      sx={{ /*  background: `#000`, */ p: 1 }}
+      color="transparent"
     >
       <Toolbar>
         <Stack direction="row" justifyContent="space-between" flex={1} gap={2}>

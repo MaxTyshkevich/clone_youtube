@@ -69,6 +69,8 @@ const page = async ({ params: { id } }: Props) => {
     fetchcommentsOfVideo,
   ]);
 
+  console.log({ videoDetails });
+
   const data = await getVideosOfChannel(videoDetails.snippet.channelId);
   const videosOfChannel = data.items;
 

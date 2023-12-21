@@ -9,12 +9,10 @@ type Props = {
 };
 
 export const Player = ({ id }: Props) => {
-  const [videoId, setVideoId] = useState(id);
-
   return (
     <Box sx={{ width: '100%', paddingTop: '52.65%', position: 'relative' }}>
       <ReactPlayer
-        url={`https://www.youtube.com/watch?v=${videoId}`}
+        url={`https://www.youtube.com/watch?v=${id}`}
         width={'100%'}
         height={'100%'}
         controls

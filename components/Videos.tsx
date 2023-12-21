@@ -6,7 +6,9 @@ import { VideoCard } from './VideoCard';
 import { ChannelCart } from './ChannelCart';
 
 type Props = {
-  videos: VideoItem<any>[];
+  videos: VideoItem<
+    VideoID | ChannelID
+  >[] /* <VideoItem<VideoID | ChannelID> */;
   lastRef?: (node?: Element | null | undefined) => void;
   stack?: boolean;
 };
@@ -37,8 +39,12 @@ export const Videos = ({ videos = [], lastRef, stack = false }: Props) => {
             {...refProp}
             sx={{ margin: 0, padding: 0 }}
           >
-            {video?.id?.videoId && <VideoCard video={video} horizon={stack} />}
-            {video?.id?.channelId && <ChannelCart video={video} />}
+            {video?.id?.videoId && (
+              <VideoCard video={video as VideoItem<VideoID>} horizon={stack} />
+            )}
+            {video?.id?.channelId && (
+              <ChannelCart video={video as VideoItem<ChannelID>} />
+            )}
           </Grid>
         );
       })}
